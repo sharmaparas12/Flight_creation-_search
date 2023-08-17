@@ -1,4 +1,6 @@
-const {City, sequelize}=require('../models/index');
+const {City,Airport, sequelize}=require('../models/index');
+//const Airport=require('../models/airport');
+const { Op } = require("sequelize");
 class CityRepository{
     async createCity({name})
     {
@@ -32,7 +34,7 @@ class CityRepository{
             // const city=await City.update(data,{where:{
             //     id:cityid
             // }});
-            // const query = `SELECT * FROM cities WHERE id = ${cityid}`;
+            // const query = `SELECT airports.name,airports.address FROM cities join airports where airports.cityId=cities.id WHERE airports.cityId = ${cityid}`;
             // const city = await sequelize.query(query);
             const city = await City.findOne({ where: { id: cityid } });
 
@@ -52,10 +54,59 @@ class CityRepository{
     async viewCity(cityid)
     {
         try{
-            const query = `SELECT * FROM cities WHERE id = ${cityid}`;
-            const city = await sequelize.query(query);
+            // way by using raw query
+            // const query = `SELECT * FROM cities WHERE id = ${cityid}`;
+            // const city = await sequelize.query(query);
+            const city = await City.findOne({ where: { id: cityid } });
             return city;
 
+        }
+        catch(error)
+        {
+            console.log("error");
+            throw({error});
+        }
+    }
+    async viewAirport(cityid)
+    {
+        try{
+            // way by using raw query
+            // const query = `SELECT * FROM airports WHERE id = ${cityid}`;
+            // const city = await sequelize.query(query);
+            // const query = `SELECT * FROM airports,cities JOIN cities on cities.id=airports.cityID WHERE airports.cityId =  ${cityid}`;
+            // const city = await sequelize.query(query);
+            const city = await City.findOne({ where: { id: cityid } });
+            const airports=await city.getAirports();
+            return airports;
+           // return city;
+
+        }
+        catch(error)
+        {
+            console.log("error");
+            throw({error});
+        }
+    }
+    async viewCities(nam)
+    {
+        try{
+            // way by using raw query
+            // const query = `SELECT * FROM cities WHERE id = ${cityid}`;
+            // const city = await sequelize.query(query);
+            if(nam)
+            {
+                const cities=await City.findAll({
+                    where:{
+                        name:{
+                            [Op.startsWith]:nam
+                        }
+                    }
+                });
+                return cities;
+
+            }
+            const cities = await City.findAll();
+            return cities
         }
         catch(error)
         {

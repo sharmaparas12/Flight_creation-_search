@@ -1,11 +1,11 @@
-const {City_service}=require('../services/index');
-const Cityservice= new City_service();
+const {Airport_service}=require('../services/index');
+const Airportservice= new Airport_service();
 const create= async (req,res) => {
     try{
-        const city=await Cityservice.create_city(req.body);
+        const city=await Airportservice.create(req.body);
         return res.status(201).json({
             data:city,
-            message:"city created succes",
+            message:"Airport created succes",
             success:true,
             err:{}
         });
@@ -14,7 +14,7 @@ const create= async (req,res) => {
         console.log(error);
         return res.status(500).json({
             data:{},
-            message:"city not created",
+            message:"Airport not created",
             success:false,
             err:error
         });
@@ -26,10 +26,10 @@ const create= async (req,res) => {
 
 const destroy= async (req,res) => {
     try{
-        const response=await Cityservice.delete_city(req.params.id);
+        const response=await Airportservice.destroy(req.params.id);
         return res.status(200).json({
             data:response,
-            message:"city deleted succes",
+            message:"Airport deleted succes",
             success:true,
             err:{}
         });
@@ -39,7 +39,7 @@ const destroy= async (req,res) => {
         console.log(error);
         return res.status(500).json({
             data:{},
-            message:"city not deleted",
+            message:"Airport not deleted",
             success:false,
             err:error
         });
@@ -50,10 +50,10 @@ const destroy= async (req,res) => {
 
 const update= async (req,res) => {
     try{
-        const response=await Cityservice.update_city(req.params.id,req.body);
+        const response=await Airportservice.update(req.params.id,req.body);
         return res.status(500).json({
             data:response,
-            message:"city update succes",
+            message:"Airport update succes",
             success:true,
             err:{}
         });
@@ -64,7 +64,7 @@ const update= async (req,res) => {
         console.log(error);
         return res.status(500).json({
             data:{},
-            message:"city not deleted",
+            message:"Airport not updated",
             success:false,
             err:error
         });
@@ -75,30 +75,7 @@ const update= async (req,res) => {
 
 const get= async (req,res) => {
     try{
-        const response=await Cityservice.view_city(req.params.id);
-        return res.status(200).json({
-            data:response,
-            message:"city view succes",
-            success:true,
-            err:{}
-        });
-
-    }
-    catch(error){
-        console.log(error);
-        return res.status(500).json({
-            data:{},
-            message:"city not deleted",
-            success:false,
-            err:error
-        });
-
-    }
-    
-}
-const getairport= async (req,res) => {
-    try{
-        const response=await Cityservice.view_airport(req.params.id);
+        const response=await Airportservice.get(req.params.id);
         return res.status(200).json({
             data:response,
             message:"Airport view succes",
@@ -111,7 +88,7 @@ const getairport= async (req,res) => {
         console.log(error);
         return res.status(500).json({
             data:{},
-            message:"city not deleted",
+            message:"View was not sucessful",
             success:false,
             err:error
         });
@@ -121,10 +98,10 @@ const getairport= async (req,res) => {
 }
 const getAll= async (req,res) => {
     try{
-        const response=await Cityservice.view_cities(req.query);
+        const response=await Airportservice.getAll(req.query);
         return res.status(200).json({
             data:response,
-            message:"city view succes",
+            message:"Aiports view succes",
             success:true,
             err:{}
         });
@@ -134,16 +111,14 @@ const getAll= async (req,res) => {
         console.log(error);
         return res.status(500).json({
             data:{},
-            message:"city not deleted",
+            message:"Aiport view was not succes",
             success:false,
             err:error
         });
 
     }
     
-
 }
-
 
 
 
@@ -154,6 +129,5 @@ module.exports={
     destroy,
     get,
     update,
-    getAll,
-    getairport,
+    getAll
 }

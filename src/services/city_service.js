@@ -28,6 +28,31 @@ class City_service{
     }
 
   }
+  async view_airport(cityid)
+  {
+    try{
+    const city=await this.cityRepository.viewAirport(cityid);
+    return city;
+    }catch(error)
+    {
+        console.log("error in service");
+        throw({error});
+    }
+
+  }
+  async view_cities(data)
+  {
+    try{
+    const cities=await this.cityRepository.viewCities(data.name);
+    return cities;
+    }catch(error)
+    {
+        console.log("error in service");
+        throw({error});
+    }
+
+  }
+
   async delete_city(cityid)
   {
     try{
